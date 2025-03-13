@@ -43,6 +43,13 @@ Options:
 
 ### Client Mode
 
+#### Start an interactive FTP session
+
+```bash
+ultraftp client shell localhost
+ultraftp client shell user:pass@remote-server
+```
+
 #### Download a file
 
 ```bash
