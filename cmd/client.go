@@ -14,7 +14,8 @@ var clientCmd = &cobra.Command{
 
 Example:
   ultraftp client get ftp://localhost:2121/file.txt local-file.txt
-  ultraftp client put local-file.txt ftp://localhost:2121/file.txt`,
+  ultraftp client put local-file.txt ftp://localhost:2121/file.txt
+  ultraftp client shell ftp.example.com`,
 }
 
 var getCmd = &cobra.Command{
@@ -55,8 +56,23 @@ Example:
 	},
 }
 
+var shellCmd = &cobra.Command{
+	Use:   "shell [host[:port]]",
+	Short: "Start an interactive FTP shell",
+	Long:  `Start an interactive FTP shell session with an FTP server.`,
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		connStr := args[0]
+		fmt.Printf("Connecting to %s...\n", connStr)
+		if err := client.StartShell(connStr); err != nil {
+			er(err)
+		}
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(clientCmd)
 	clientCmd.AddCommand(getCmd)
 	clientCmd.AddCommand(putCmd)
+	clientCmd.AddCommand(shellCmd)
 }
